@@ -129,6 +129,8 @@ class AssistantEngine:
             raw.setdefault("kemungkinan_penyebab", [])
             raw.setdefault("pemeriksaan_lanjutan", [])
             raw.setdefault("keterbatasan", [])
+            raw.setdefault("agent_mode", "legacy_rag")
+            raw.setdefault("tool_calls", [])
             raw["hasil_perhitungan"] = calculation_result
             answer = AssistantAnswer.model_validate(raw)
             if not answer.sumber:

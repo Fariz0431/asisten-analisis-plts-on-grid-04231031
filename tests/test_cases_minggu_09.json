@@ -1,0 +1,205 @@
+[
+  {
+    "id": "Q01",
+    "category": "single_source",
+    "question": "Apa peran kecerdasan buatan dalam deteksi dan diagnosis gangguan PLTS yang terhubung ke jaringan?",
+    "expected_doc_ids": [
+      "D1"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q02",
+    "category": "single_source",
+    "question": "Mengapa keandalan dan predictive maintenance penting pada sistem PLTS grid-connected?",
+    "expected_doc_ids": [
+      "D2"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q03",
+    "category": "single_source",
+    "question": "Mengapa validasi dan kalibrasi perlu dipertimbangkan dalam model-based fault detection fotovoltaik?",
+    "expected_doc_ids": [
+      "D3"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q04",
+    "category": "single_source",
+    "question": "Mengapa data kinerja digunakan dalam teknik diagnosis kegagalan sistem PV grid-connected?",
+    "expected_doc_ids": [
+      "D4"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q05",
+    "category": "single_source",
+    "question": "Apa tantangan metode estimasi soiling pada sistem fotovoltaik?",
+    "expected_doc_ids": [
+      "D5"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q06",
+    "category": "single_source",
+    "question": "Apa tujuan monitoring photovoltaic soiling dan mengapa strategi pemantauan perlu dievaluasi?",
+    "expected_doc_ids": [
+      "D6"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q07",
+    "category": "single_source",
+    "question": "Bagaimana dokumentasi PVsyst mendefinisikan Performance Ratio pada sistem grid-connected standar?",
+    "expected_doc_ids": [
+      "D7"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q08",
+    "category": "single_source",
+    "question": "Bagaimana PVsyst memperlakukan soiling loss dalam simulasi PLTS?",
+    "expected_doc_ids": [
+      "D8"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q09",
+    "category": "cross_document",
+    "question": "Bagaimana AI untuk deteksi gangguan berkaitan dengan keandalan dan predictive maintenance pada PLTS grid-connected?",
+    "expected_doc_ids": [
+      "D1",
+      "D2"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q10",
+    "category": "cross_document",
+    "question": "Jelaskan keterkaitan model-based fault detection, validasi model, dan analisis data kinerja PLTS.",
+    "expected_doc_ids": [
+      "D3",
+      "D4"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q11",
+    "category": "cross_document",
+    "question": "Apa hubungan metode estimasi soiling dengan strategi monitoring soiling pada modul fotovoltaik?",
+    "expected_doc_ids": [
+      "D5",
+      "D6"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q12",
+    "category": "cross_document",
+    "question": "Jelaskan hubungan Performance Ratio dan soiling loss berdasarkan dokumentasi PVsyst.",
+    "expected_doc_ids": [
+      "D7",
+      "D8"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q13",
+    "category": "calculation_context",
+    "question": "Dokumen apa yang menjelaskan rumus PR E_Grid dibagi GlobInc dikalikan PnomPV?",
+    "expected_doc_ids": [
+      "D7"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q14",
+    "category": "calculation_context",
+    "question": "Apa informasi dokumentasi PVsyst yang relevan untuk menjelaskan rugi soiling pada simulasi?",
+    "expected_doc_ids": [
+      "D8"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q15",
+    "category": "single_source",
+    "question": "Apa yang harus dipertimbangkan saat memantau soiling pada sistem PV?",
+    "expected_doc_ids": [
+      "D6"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q16",
+    "category": "single_source",
+    "question": "Apa alasan pendekatan model-based fault detection memerlukan kalibrasi dan validasi?",
+    "expected_doc_ids": [
+      "D3"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q17",
+    "category": "single_source",
+    "question": "Mengapa estimasi soiling memiliki tantangan pada sistem photovoltaic?",
+    "expected_doc_ids": [
+      "D5"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q18",
+    "category": "single_source",
+    "question": "Apa konteks umum gangguan, kegagalan, dan pemeliharaan prediktif PLTS yang terhubung jaringan?",
+    "expected_doc_ids": [
+      "D2"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q19",
+    "category": "negative",
+    "question": "Apa arti kode alarm A999 pada inverter merek dan model tertentu jika manualnya tidak tersedia di Knowledge Base?",
+    "expected_doc_ids": [],
+    "expect_no_hit": true,
+    "answer_review": "Belum dinilai"
+  },
+  {
+    "id": "Q20",
+    "category": "negative_context",
+    "question": "Berapa persentase soiling aktual pada instalasi tertentu jika tidak ada data pengukuran lokasi tersebut?",
+    "expected_doc_ids": [
+      "D5",
+      "D8"
+    ],
+    "expect_no_hit": false,
+    "answer_review": "Belum dinilai"
+  }
+]

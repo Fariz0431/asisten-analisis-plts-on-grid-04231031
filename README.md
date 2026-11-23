@@ -1,6 +1,6 @@
 # Asisten Analisis Kinerja dan Gangguan PLTS On-Grid
 
-Proyek ini merupakan prototipe aplikasi berbasis Python dan Streamlit untuk membantu analisis awal kinerja PLTS On-Grid. Sistem menggabungkan pencarian dokumen menggunakan TF-IDF, kalkulator deterministik untuk PR/CUF/selisih energi, serta integrasi LLM opsional melalui endpoint yang kompatibel dengan API OpenAI.
+Proyek ini merupakan prototipe aplikasi berbasis Python dan Streamlit untuk membantu analisis awal kinerja PLTS On-Grid. Sistem menggabungkan retrieval dokumen TF-IDF, kalkulator deterministik untuk PR/CUF/selisih energi, serta Tool-Calling Agent berbasis LLM opsional.
 
 > **Batasan penting:** aplikasi ini hanya membantu analisis awal berdasarkan dokumen dan angka yang dimasukkan. Aplikasi tidak melakukan diagnosis kerusakan definitif, pemantauan inverter secara real-time, perubahan setelan peralatan, atau pengendalian perangkat PLTS. Hasil harus diperiksa kembali terhadap sumber asli dan data lapangan.
 
@@ -9,7 +9,8 @@ Proyek ini merupakan prototipe aplikasi berbasis Python dan Streamlit untuk memb
 - Pencarian potongan dokumen menggunakan TF-IDF sebagai baseline RAG.
 - Metadata sumber, ID chunk, cuplikan, dan tautan rujukan ditampilkan bersama hasil.
 - Status jawaban dibatasi menjadi `cukup_data`, `data_belum_cukup`, `informasi_tidak_ditemukan`, atau `perlu_verifikasi`.
-- LLM bersifat opsional. Tanpa konfigurasi LLM, aplikasi hanya menampilkan hasil retrieval dan **tidak mengklaim sedang menghasilkan jawaban generatif**.
+- Tool-Calling Agent dapat memilih retrieval Knowledge Base atau kalkulator Python saat LLM dan function calling provider tersedia.
+- LLM bersifat opsional. Tanpa konfigurasi LLM, aplikasi berjalan dalam mode retrieval-only dan kalkulator tetap tersedia pada tab manual.
 - Kalkulasi Performance Ratio (PR), Capacity Utilization Factor (CUF), dan selisih energi dilakukan oleh fungsi Python.
 - Knowledge base awal terdiri atas enam catatan ringkas artikel dan dua catatan dokumentasi teknis PVsyst. Catatan artikel bukan salinan atau pengganti artikel asli.
 - Pengujian unit dan skrip evaluasi retrieval disediakan.
@@ -20,6 +21,7 @@ Proyek ini merupakan prototipe aplikasi berbasis Python dan Streamlit untuk memb
 .
 ├── app.py
 ├── plts_assistant/
+│   ├── agent.py           # Tool-Calling Agent dan definisi tools
 │   ├── calculator.py
 │   ├── config.py
 │   ├── documents.py
@@ -106,6 +108,38 @@ python scripts/run_retrieval_evaluation.py
 ```
 
 Hasil CSV dan JSON akan ditulis ke `outputs/`. Skrip ini mengukur apakah sumber target muncul pada hasil retrieval. Untuk pertanyaan negatif, kemunculan sumber apa pun perlu ditinjau manual sebagai kandidat false positive. **Evaluasi retrieval tidak membuktikan kebenaran jawaban generatif atau diagnosis lapangan.**
+
+## Tool-Calling Agent
+
+Modul `plts_assistant/agent.py` menambahkan Agent dengan empat tools:
+
+- `search_knowledge_base`: pencarian dokumen menggunakan retrieval TF-IDF saat ini.
+- `calculate_performance_ratio`: kalkulasi PR dengan fungsi Python.
+- `calculate_cuf`: kalkulasi CUF dengan fungsi Python.
+- `calculate_energy_difference`: kalkulasi selisih energi dengan fungsi Python.
+
+Agent meminta LLM memilih tool. Fungsi kalkulator tetap deterministik dan tidak menyerahkan perhitungan numerik kepada model. Pada pertanyaan gabungan, model dapat memanggil retrieval dan kalkulator. Tool calling memerlukan provider/model yang mendukung function calling; kompatibilitas harus diuji. Tanpa konfigurasi LLM, sistem secara eksplisit berada pada mode retrieval-only dan perhitungan dilakukan melalui tab Kalkulator PLTS.
+
+Keluaran menyertakan `agent_mode` dan `tool_calls` agar mode kerja dan tool yang dipanggil dapat diperiksa.
+
+## Retrieval aktif dan rencana pengembangan
+
+Metode yang aktif tetap TF-IDF dengan cosine similarity, top-k 4 dan threshold 0,12 sebagai konfigurasi awal. Hybrid Retrieval belum diimplementasikan. Rencana eksperimen untuk menggabungkan BM25, Dense Retrieval dan Reciprocal Rank Fusion dijelaskan pada `docs/RENCANA_HYBRID_RETRIEVAL.md`. TF-IDF dipertahankan sebagai baseline pembanding.
+
+## Evaluasi progres mingguan
+
+- Evaluasi 10 pertanyaan awal: `scripts/run_retrieval_evaluation.py`.
+- Evaluasi 20 pertanyaan lanjutan: `scripts/run_evaluasi_minggu_09.py`.
+- Skenario tool-calling Agent: `tests/test_agent_scenarios.json`.
+- Unit test Agent: `tests/test_agent.py`.
+
+Jalankan evaluasi 20 pertanyaan dengan:
+
+```bash
+python scripts/run_evaluasi_minggu_09.py
+```
+
+Skrip menghasilkan CSV dan JSON di `outputs/`. Metrik target-document coverage tidak sama dengan akurasi jawaban generatif. Review manual tetap wajib.
 
 ## Rumus kalkulator
 

@@ -1,0 +1,55 @@
+[
+  {
+    "id": "A01",
+    "type": "retrieval",
+    "question": "Apa definisi Performance Ratio menurut dokumentasi PVsyst?",
+    "expected_tools": [
+      "search_knowledge_base"
+    ],
+    "notes": "Harus mencari D7 dan menyebut sumber."
+  },
+  {
+    "id": "A02",
+    "type": "calculator",
+    "question": "Hitungkan CUF jika energi 720 kWh, kapasitas 10 kW, dan durasi 720 jam.",
+    "expected_tools": [
+      "calculate_cuf"
+    ],
+    "notes": "Hasil pembanding 10%."
+  },
+  {
+    "id": "A03",
+    "type": "calculator",
+    "question": "Hitungkan PR jika E_Grid 900 kWh, GlobInc 150 kWh/m2, dan Pnom PV 10 kWp.",
+    "expected_tools": [
+      "calculate_performance_ratio"
+    ],
+    "notes": "Untuk sistem grid-connected standar; hasil pembanding 60%."
+  },
+  {
+    "id": "A04",
+    "type": "combined",
+    "question": "Jelaskan rumus PR dan hitung nilai PR untuk E_Grid 900 kWh, GlobInc 150 kWh/m2, serta Pnom PV 10 kWp.",
+    "expected_tools": [
+      "search_knowledge_base",
+      "calculate_performance_ratio"
+    ],
+    "notes": "Harus menggunakan D7 dan kalkulator."
+  },
+  {
+    "id": "A05",
+    "type": "missing_input",
+    "question": "Hitungkan CUF PLTS saya.",
+    "expected_tools": [],
+    "notes": "Agent harus meminta energi, kapasitas, dan durasi; tidak boleh mengarang input."
+  },
+  {
+    "id": "A06",
+    "type": "negative",
+    "question": "Apa arti alarm A999 pada inverter yang manualnya tidak tersedia?",
+    "expected_tools": [
+      "search_knowledge_base"
+    ],
+    "notes": "Jika tidak ada sumber spesifik, jangan menafsirkan kode alarm."
+  }
+]

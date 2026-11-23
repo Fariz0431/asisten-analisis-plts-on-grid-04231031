@@ -1,5 +1,4 @@
 """Schema keluaran untuk menjaga struktur jawaban aplikasi."""
-
 from __future__ import annotations
 
 from typing import Any, Literal
@@ -12,6 +11,8 @@ AnswerStatus = Literal[
     "informasi_tidak_ditemukan",
     "perlu_verifikasi",
 ]
+
+AgentMode = Literal["tool_calling", "retrieval_only", "legacy_rag"]
 
 
 class SourceReference(BaseModel):
@@ -36,3 +37,5 @@ class AssistantAnswer(BaseModel):
     kemungkinan_penyebab: list[str] = Field(default_factory=list)
     pemeriksaan_lanjutan: list[str] = Field(default_factory=list)
     keterbatasan: list[str] = Field(default_factory=list)
+    agent_mode: AgentMode = "retrieval_only"
+    tool_calls: list[str] = Field(default_factory=list)

@@ -9,6 +9,7 @@ from plts_assistant.calculator import (
     calculate_energy_difference,
     calculate_performance_ratio,
 )
+from plts_assistant.agent import ToolCallingAgent
 from plts_assistant.config import settings
 from plts_assistant.documents import load_documents
 from plts_assistant.pipeline import AssistantEngine
@@ -23,6 +24,11 @@ st.set_page_config(
 @st.cache_resource(show_spinner="Memuat knowledge base dan membangun indeks retrieval...")
 def get_engine() -> AssistantEngine:
     return AssistantEngine(settings)
+
+
+@st.cache_resource(show_spinner="Menyiapkan Agent dan tools PLTS...")
+def get_agent() -> ToolCallingAgent:
+    return ToolCallingAgent(get_engine())
 
 
 def render_calculation() -> dict | None:
@@ -76,7 +82,7 @@ def main() -> None:
         st.write("**Status integrasi LLM**")
         if settings.llm_enabled:
             st.success(f"Konfigurasi tersedia · model: {settings.llm_model}")
-            st.caption("Keberhasilan panggilan provider tetap bergantung pada jaringan, API key, model, dan endpoint.")
+            st.caption("Tool-calling Agent memerlukan provider/model yang mendukung function calling. Uji sebelum presentasi.")
         else:
             st.warning("LLM belum dikonfigurasi. Aplikasi berjalan dalam mode retrieval-only.")
         st.caption("Jangan memasukkan API key pada chat atau source code. Gunakan file .env lokal.")
@@ -95,17 +101,17 @@ def main() -> None:
         st.subheader("Ajukan pertanyaan")
         question = st.text_area(
             "Pertanyaan mengenai kinerja atau gangguan PLTS",
-            placeholder="Contoh: Bagaimana PR dihitung dan data apa yang diperlukan untuk memeriksa penurunan kinerja?",
+            placeholder="Contoh: Hitung CUF dengan energi 720 kWh, kapasitas 10 kW, dan periode 720 jam.",
             height=110,
         )
-        with st.expander("Tambahkan hasil perhitungan (opsional)"):
-            calculation_result = render_calculation()
+        st.caption("Agent memilih pencarian Knowledge Base atau kalkulator Python sesuai pertanyaan.")
+        if not settings.llm_enabled:
+            st.info("LLM belum dikonfigurasi. Aplikasi tetap berjalan dalam mode retrieval-only; gunakan tab Kalkulator PLTS untuk perhitungan manual.")
         if st.button("Cari sumber dan analisis", type="primary", disabled=not question.strip()):
             with st.spinner("Pertanyaan sedang dicari pada knowledge base..."):
                 try:
-                    answer = engine.ask(
+                    answer = get_agent().ask(
                         question,
-                        calculation_result=calculation_result,
                         top_k=top_k,
                         threshold=threshold,
                     )
@@ -124,6 +130,12 @@ def main() -> None:
                 "perlu_verifikasi": "Perlu verifikasi",
             }
             st.markdown(f"**Status:** `{status}` — {labels.get(status, status)}")
+            if result.get("agent_mode") == "tool_calling":
+                st.success("Tool-calling Agent aktif.")
+            else:
+                st.warning("Mode retrieval-only: pemanggilan tool otomatis belum aktif.")
+            if result.get("tool_calls"):
+                st.caption("Tool yang dipanggil: " + ", ".join(result["tool_calls"]))
             st.markdown("### Ringkasan")
             st.write(result.get("ringkasan", ""))
 
